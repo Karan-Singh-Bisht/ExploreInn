@@ -75,9 +75,9 @@ const sessionOptions = {   //Setting cookies details
 };
 
 //Root Route
-// app.get("/",(req,res) => {
-//     res.send("Hi, I am root");
-// });
+app.get("/",(req,res) => {
+    res.redirect("/listing");
+});
 
 app.use(session(sessionOptions));
 app.use(flash());
