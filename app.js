@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
+const methodOverride = require("method-override");
 
 const db = require("./config/db");
 db();
@@ -11,6 +12,7 @@ app.set("view engine", "ejs");
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(methodOverride("_method"));
 
 const listingRoute = require("./routes/listingRoute");
 const userRoute = require("./routes/userRoute");

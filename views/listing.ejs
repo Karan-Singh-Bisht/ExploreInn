@@ -10,13 +10,21 @@
     <div class="w-full h-screen p-5">
       <h1 class="text-5xl"><%= listing.title %></h1>
       <ul class="mt-3 list-disc ml-5">
-        <li><p>Description: <%= listing.description %></p></li>
+        <li><p>Description : <%= listing.description %></p></li>
         <li>
-          <p>Price: &#8377;<%= listing.price.toLocaleString("en-IN") %></p>
+          <p>Price : &#8377;<%= listing.price.toLocaleString("en-IN") %></p>
         </li>
-        <li><p>Location: <%= listing.location %></p></li>
-        <li><p>Country: <%= listing.country %></p></li>
+        <li>Category : <%=listing.category%></li>
+        <li><p>Location : <%= listing.location %></p></li>
+        <li><p>Country : <%= listing.country %></p></li>
       </ul>
+      <a href="/listings/edit/<%=listing._id%>">Edit listing</a>
+      <form
+        action="/listings/delete/<%=listing._id%>?_method=DELETE"
+        method="post"
+      >
+        <button>Delete Listing</button>
+      </form>
       <a class="text-sm" href="/listings">Back to Listings</a>
     </div>
   </body>

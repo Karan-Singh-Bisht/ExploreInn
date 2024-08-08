@@ -3,11 +3,14 @@ const uploadOnCloudinary = require("../utils/cloudinary");
 const ApiResponse = require("../utils/apiResponse");
 const listingModel = require("../models/listing.models");
 const ApiError = require("../utils/apiError");
+const { model } = require("mongoose");
 
+//Render create form
 module.exports.renderCreateForm = asyncHandler(async (req, res) => {
   res.render("new");
 });
 
+//create a new listing
 module.exports.createListing = asyncHandler(async (req, res) => {
   const { title, description, price, location, country, category } = req.body;
 
@@ -29,10 +32,10 @@ module.exports.createListing = asyncHandler(async (req, res) => {
   if (!listing) {
     throw new ApiError(500, "Failed to create listing");
   }
-
-  res.status(201).json(new ApiResponse(200, listing, "Listing Created"));
+  res.redirect("/listings");
 });
 
+//Show all listings on home page (GET /listings)
 module.exports.showListings = asyncHandler(async (req, res) => {
   const listings = await listingModel.find({});
   if (!listings) {
@@ -41,6 +44,7 @@ module.exports.showListings = asyncHandler(async (req, res) => {
   res.render("home", { listings });
 });
 
+//Show particular listing
 module.exports.listing = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const listing = await listingModel.findById(id);
@@ -48,4 +52,45 @@ module.exports.listing = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Listing not found");
   }
   res.render("listing", { listing });
+});
+
+//render Edit form
+module.exports.renderEditForm = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const listing = await listingModel.findById(id);
+  if (!listing) {
+    throw new ApiError(404, "Listing not found");
+  }
+  res.render("edit", { listing });
+});
+
+//Update Listing
+module.exports.updateListing = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { title, description, price, location, country, category } = req.body;
+
+  const updatedListing = await listingModel.findByIdAndUpdate(id, {
+    title,
+    description,
+    price,
+    location,
+    country,
+    category,
+  });
+
+  if (!updatedListing) {
+    throw new ApiError(500, "Failed to update listing");
+  }
+  res.redirect(`/listings/${id}`);
+});
+
+//Delete a listing
+module.exports.deleteListing = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const deletedListing = await listingModel.findByIdAndDelete(id);
+
+  if (!deletedListing) {
+    throw new ApiError(404, "Listing not found");
+  }
+  res.redirect("/listings");
 });
