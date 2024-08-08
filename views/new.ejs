@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExploreInn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="w-full h-screen p-5 flex flex-col items-center justify-center">
+      <h1 class="text-3xl mb-3">Create a new Listing</h1>
+      <div>
+        <form action="/listings/create" method="post">
+          <input
+            placeholder="Enter Title"
+            type="text"
+            id="title"
+            name="title"
+            required
+          />
+          <br /><br />
+          <textarea
+            placeholder="Enter Description"
+            id="description"
+            name="description"
+            required
+          ></textarea>
+          <br /><br />
+          <input type="text" name="image" placeholder="Post Image" id="image" />
+          <br /><br />
+          <input
+            placeholder="Enter Price"
+            type="number"
+            id="price"
+            name="price"
+            required
+          />
+          <br /><br />
+          <select id="category" name="category" class="dropdown">
+            <option value="" disabled selected>Select a category</option>
+            <option value="villa">Villa</option>
+            <option value="igloo">Igloo</option>
+            <option value="cabin">Cabin</option>
+            <option value="cottage">Cottage</option>
+            <option value="pentHouse">Penthouse</option>
+            <option value="apartment">Apartment</option>
+            <option value="swimmingPool">Swimming Pool</option>
+            <option value="entirePlace">Entire Place</option>
+          </select>
+          <br /><br />
+          <input
+            placeholder="Enter Location"
+            type="text"
+            id="location"
+            name="location"
+            required
+          />
+          <br /><br />
+          <input
+            placeholder="Enter Country"
+            type="text"
+            id="country"
+            name="country"
+            required
+          />
+          <br /><br />
+          <button
+            type="submit"
+            class="rounded-md mt-3 bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
+            New Listing
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

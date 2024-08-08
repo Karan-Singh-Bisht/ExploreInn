@@ -12,6 +12,20 @@ const listingSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  category: {
+    type: String,
+    required: true,
+    enum: [
+      "villa",
+      "igloo",
+      "swimmingPool",
+      "cabin",
+      "pentHouse",
+      "cottage",
+      "apartment",
+      "entirePlace",
+    ],
+  },
   price: {
     type: Number,
     required: true,
