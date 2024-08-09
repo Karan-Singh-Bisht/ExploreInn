@@ -1,23 +1,163 @@
 <% layout("/layouts/boilerplate")%>
-<body>
-  <div class="w-full h-screen">
-    <h1 class="text-5xl"><%= listing.title %></h1>
-    <ul class="mt-3 list-disc ml-5">
-      <li><p>Description : <%= listing.description %></p></li>
-      <li>
-        <p>Price : &#8377;<%= listing.price.toLocaleString("en-IN") %></p>
-      </li>
-      <li>Category : <%=listing.category%></li>
-      <li><p>Location : <%= listing.location %></p></li>
-      <li><p>Country : <%= listing.country %></p></li>
-    </ul>
-    <a href="/listings/edit/<%=listing._id%>">Edit listing</a>
-    <form
-      action="/listings/delete/<%=listing._id%>?_method=DELETE"
-      method="post"
-    >
-      <button>Delete Listing</button>
-    </form>
-    <a class="text-sm" href="/listings">Back to Listings</a>
+<section class="overflow-hidden">
+  <div class="mx-auto max-w-5xl px-5 py-24">
+    <div class="mx-auto flex flex-wrap items-center lg:w-4/5">
+      <img
+        alt="Listing details"
+        class="h-64 w-full rounded object-cover lg:h-96 lg:w-1/2"
+        src="<%=listing.image%>"
+      />
+      <div class="mt-6 w-full lg:mt-0 lg:w-1/2 lg:pl-10">
+        <h2 class="text-sm font-semibold tracking-widest text-gray-500">
+          <%=listing.title%>
+        </h2>
+        <h1 class="my-4 text-3xl font-semibold text-black">
+          <%=listing.title%>
+        </h1>
+        <div class="my-4 flex items-center">
+          <span class="flex items-center space-x-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-yellow-500"
+            >
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+              ></polygon>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-yellow-500"
+            >
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+              ></polygon>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-yellow-500"
+            >
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+              ></polygon>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-yellow-500"
+            >
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+              ></polygon>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-yellow-500"
+            >
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+              ></polygon>
+            </svg>
+            <span class="ml-3 inline-block text-xs font-semibold">
+              4 Reviews //TODO Total number of reviews
+            </span>
+          </span>
+        </div>
+        <p class="leading-relaxed"><%=listing.description%></p>
+        <div
+          class="mb-5 mt-6 flex items-center border-b-2 border-gray-100 pb-5"
+        >
+          <div class="flex items-center">
+            <span class="mr-1 text-sm font-semibold"
+              ><%=listing.location%>,</span
+            >
+            <span class="mr-3 text-sm font-semibold"><%=listing.country%></span>
+          </div>
+          <div class="ml-auto flex items-center">
+            <span class="mr-3 text-sm font-semibold"
+              >Category : <%=listing.category%></span
+            >
+            <div class="relative">
+              <span
+                class="pointer-events-none absolute right-0 top-0 flex h-full w-10 items-center justify-center text-center text-gray-600"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-down"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="title-font text-xl font-bold text-gray-900">
+            &#8377;<%=listing.price.toLocaleString("en-IN")%> / night
+          </span>
+          <form
+            action="/listings/delete/<%=listing._id%>?_method=DELETE"
+            method="post"
+          >
+            <a
+              href="/listings/edit/<%=listing._id%>"
+              class="rounded-md bg-red-500 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >Edit</a
+            >
+            <button
+              class="rounded-md bg-transparent px-5 py-2 text-sm font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</body>
+</section>
