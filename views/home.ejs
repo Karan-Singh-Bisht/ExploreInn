@@ -1,19 +1,32 @@
 <% layout("/layouts/boilerplate")%>
-  <body>
-    <div class="w-full h-screen ">
-      <h1 class="text-5xl">All Listings</h1>
-      <form method="GET" action="/listings/new">
-        <button
-          class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        >
-          New Listing
-        </button>
-      </form>
-      <ul class="mt-2">
-        <%listings.forEach((listing) => {%>
-        <li><a href="/listings/<%=listing._id%>"><%= listing.title %></a></li>
-        <%})%>
-      </ul>
+<body>
+  <div class="w-full">
+    <h1 class="text-5xl mb-5">All Listings</h1>
+    <div class="flex flex-wrap gap-10">
+      <%listings.forEach((listing) => {%>
+      <div class="relative hover:opacity-85 h-[400px] w-[325px] rounded-md">
+        <img
+          src="<%=listing.image%>"
+          alt="Listing image"
+          class="z-0 h-full w-full rounded-md object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"
+        ></div>
+        <div class="absolute bottom-4 left-4 text-left">
+          <h1 class="text-lg font-semibold text-white"><%=listing.title%></h1>
+          <p class="mt-2 text-sm text-gray-300">
+            &#8377;<%=listing.price.toLocaleString("en-IN")%> / night
+          </p>
+          <a
+            href="/listings/<%=listing._id%>"
+            class="mt-2 inline-flex cursor-pointer items-center text-sm font-semibold text-white"
+          >
+            View Listing →
+          </a>
+        </div>
+      </div>
+      <%})%>
     </div>
-  </body>
-</html>
+  </div>
+</body>
