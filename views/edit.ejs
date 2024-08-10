@@ -4,6 +4,7 @@
     <h1 class="text-3xl mb-6 font-bold">Edit <%=listing.title%></h1>
     <div>
       <form
+        id="editForm"
         action="/listings/update/<%=listing._id %>?_method=PUT"
         method="POST"
         class="space-y-6"
@@ -15,11 +16,11 @@
             >Title</label
           >
           <input
+            required
             type="text"
             id="title"
             name="title"
             value="<%= listing.title %>"
-            required
             class="mt-1 block w-full p-2 rounded-md border-2 shadow-sm focus:border-black focus:ring-black"
           />
         </div>
@@ -34,8 +35,8 @@
           >
           <textarea
             id="description"
+            required="true"
             name="description"
-            required
             class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
           >
 <%=listing.description%></textarea
@@ -67,8 +68,8 @@
             value="<%=listing.price%>"
             type="number"
             id="price"
+            required="true"
             name="price"
-            required
             class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
           />
         </div>
@@ -84,6 +85,7 @@
           <select
             id="category"
             name="category"
+            required="true"
             class="block w-full p-2 border-2 bg-white border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="<%=listing.category%>"><%=listing.category%></option>
@@ -108,8 +110,8 @@
             value="<%=listing.location%>"
             type="text"
             id="location"
-            name="location"
             required
+            name="location"
             class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
           />
         </div>
@@ -124,8 +126,8 @@
             value="<%=listing.country%>"
             type="text"
             id="country"
-            name="country"
             required
+            name="country"
             class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
           />
         </div>

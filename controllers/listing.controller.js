@@ -3,7 +3,6 @@ const uploadOnCloudinary = require("../utils/cloudinary");
 const ApiResponse = require("../utils/apiResponse");
 const listingModel = require("../models/listing.models");
 const ApiError = require("../utils/apiError");
-const { model } = require("mongoose");
 
 //Render create form
 module.exports.renderCreateForm = asyncHandler(async (req, res) => {

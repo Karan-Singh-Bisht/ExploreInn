@@ -21,6 +21,16 @@ const userRoute = require("./routes/userRoute");
 
 app.use("/", listingRoute);
 app.use("/user", userRoute);
+app.all("*", (req, res, next) => {
+  {
+    (statusCode = 404), (message = "Page Not Found!");
+  }
+  res.status(statusCode).render("error", { statusCode, message });
+});
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "Something went wrong!" } = err;
+  res.render("error", { message, statusCode });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
