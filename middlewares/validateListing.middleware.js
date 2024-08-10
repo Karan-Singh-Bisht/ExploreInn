@@ -4,7 +4,8 @@ const ApiError = require("../utils/apiError");
 const validateListing = (req, res, next) => {
   const { error } = listingSchemaJoi.validate(req.body);
   if (error) {
-    throw new ApiError(400, error.message);
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ApiError(400, errMsg);
   } else {
     next();
   }
