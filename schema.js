@@ -46,4 +46,16 @@ const listingSchemaJoi = Joi.object({
   }),
 });
 
-module.exports = listingSchemaJoi;
+const ratingSchemaJoi = Joi.object({
+  rating: Joi.number().min(1).max(5).required().messages({
+    "number.base": "Rating must be a number.",
+    "number.empty": "Rating is required.",
+  }),
+
+  comment: Joi.string().required().messages({
+    "string.base": "Comment should be a string.",
+    "string.empty": "Comment is required.",
+  }),
+});
+
+module.exports = { listingSchemaJoi, ratingSchemaJoi };

@@ -3,6 +3,7 @@ const uploadOnCloudinary = require("../utils/cloudinary");
 const ApiResponse = require("../utils/apiResponse");
 const listingModel = require("../models/listing.models");
 const ApiError = require("../utils/apiError");
+const ratingModel = require("../models/rating.model");
 
 //Render create form
 module.exports.renderCreateForm = asyncHandler(async (req, res) => {
@@ -46,7 +47,7 @@ module.exports.showListings = asyncHandler(async (req, res) => {
 //Show particular listing
 module.exports.listing = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const listing = await listingModel.findById(id);
+  const listing = await listingModel.findById(id).populate("ratings");
   if (!listing) {
     throw new ApiError(404, "Listing not found");
   }
@@ -92,4 +93,45 @@ module.exports.deleteListing = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Listing not found");
   }
   res.redirect("/listings");
+});
+
+//create Ratings
+module.exports.listingRating = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const listing = await listingModel.findById(id);
+  if (!listing) {
+    throw new ApiError(404, "Listing does not exist!");
+  }
+  const objectId = id;
+
+  const { rating, comment } = req.body;
+  const userId = id;
+
+  const newRating = new ratingModel({ rating, comment, userId });
+
+  listing.ratings.push(newRating);
+
+  await newRating.save();
+  await listing.save();
+  res.redirect(`/listings/${id}`);
+});
+
+//Delete Rating
+module.exports.deleteRating = asyncHandler(async (req, res) => {
+  const { id, ratingId } = req.params;
+  const listing = await listingModel.findByIdAndUpdate(
+    id,
+    {
+      $pull: { ratings: ratingId },
+    },
+    { new: true }
+  );
+  if (!listing) {
+    throw new ApiError(500, "Failed to delete rating");
+  }
+  const deletedRating = await ratingModel.findByIdAndDelete(ratingId);
+  if (!deletedRating) {
+    throw new ApiError(404, "Rating not found");
+  }
+  res.redirect(`/listings/${id}`);
 });

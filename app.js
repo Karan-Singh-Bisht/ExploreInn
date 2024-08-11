@@ -16,10 +16,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
+//Route Declaration
 const listingRoute = require("./routes/listingRoute");
 const userRoute = require("./routes/userRoute");
 
-app.use("/", listingRoute);
+app.use("/listings", listingRoute);
 app.use("/user", userRoute);
 app.all("*", (req, res, next) => {
   {

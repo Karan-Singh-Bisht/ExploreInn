@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ratingModel = require("../models/rating.model");
 
 const listingSchema = new mongoose.Schema({
   title: {
@@ -38,6 +39,19 @@ const listingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  ratings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rating",
+    },
+  ],
+});
+
+//Delete all the ratings which have the id of the deleted listing
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await ratingModel.deleteMany({ _id: { $in: listing.ratings } });
+  }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

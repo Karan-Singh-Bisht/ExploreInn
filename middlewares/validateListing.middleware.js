@@ -1,4 +1,4 @@
-const listingSchemaJoi = require("../schema");
+const { listingSchemaJoi } = require("../schema");
 const ApiError = require("../utils/apiError");
 
 const validateListing = (req, res, next) => {
