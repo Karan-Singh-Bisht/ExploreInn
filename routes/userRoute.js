@@ -1,8 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { registerUser } = require("../controllers/user.controller");
+const {
+  registerUser,
+  loginUser,
+  renderRegisterPage,
+} = require("../controllers/user.controller");
 const upload = require("../middlewares/multer.middleware");
 
-router.post("/register", upload.single("avatar"), registerUser);
+router.get("/register", renderRegisterPage);
+router.post("/registerUser", registerUser);
+router.post("/login", loginUser);
 
 module.exports = router;
