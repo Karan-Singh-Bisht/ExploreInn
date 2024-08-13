@@ -6,6 +6,30 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const cookieParser = require("cookie-parser");
+const expressSession = require("express-session");
+const flash = require("connect-flash");
+
+app.use(
+  expressSession({
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    },
+  })
+);
+app.use(flash());
+
+//Middleware for flash
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
+  next();
+});
 
 const db = require("./config/db");
 db();

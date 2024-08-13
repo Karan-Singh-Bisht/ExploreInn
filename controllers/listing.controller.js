@@ -28,10 +28,10 @@ module.exports.createListing = asyncHandler(async (req, res) => {
       image?.url ||
       "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   });
-
   if (!listing) {
     throw new ApiError(500, "Failed to create listing");
   }
+  req.flash("success", "Listing Created Successfully!");
   res.redirect("/listings");
 });
 
@@ -81,6 +81,7 @@ module.exports.updateListing = asyncHandler(async (req, res) => {
   if (!updatedListing) {
     throw new ApiError(500, "Failed to update listing");
   }
+  req.flash("success", "Listing Updated Successfully!");
   res.redirect(`/listings/${id}`);
 });
 
@@ -92,6 +93,7 @@ module.exports.deleteListing = asyncHandler(async (req, res) => {
   if (!deletedListing) {
     throw new ApiError(404, "Listing not found");
   }
+  req.flash("success", "Listing Deleted Successfully!");
   res.redirect("/listings");
 });
 

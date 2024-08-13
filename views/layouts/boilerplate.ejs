@@ -16,7 +16,9 @@
   </head>
   <body>
     <%- include("../includes/navbar.ejs")%>
-    <div class="container p-5 mx-auto"><%- body %></div>
+    <div class="container p-5 mx-auto">
+      <%- include("../includes/flash.ejs")%> <%- body %>
+    </div>
     <%- include("../includes/footer.ejs")%>
   </body>
 </html>
