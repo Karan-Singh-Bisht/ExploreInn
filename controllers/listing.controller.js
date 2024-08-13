@@ -49,7 +49,9 @@ module.exports.listing = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const listing = await listingModel.findById(id).populate("ratings");
   if (!listing) {
-    throw new ApiError(404, "Listing not found");
+    req.flash("error", "Listing Does not exist");
+    res.redirect("/listings");
+    // throw new ApiError(404, "Listing not found");
   }
   res.render("listing", { listing });
 });

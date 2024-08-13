@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
-const ejsMate = require("ejs-mate");
+const ejsMate = require("ejs-mate"); //required for boilerPlate
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
@@ -27,7 +27,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
-  // res.locals.error = req.flash("error");
+  res.locals.error = req.flash("error");
   next();
 });
 
