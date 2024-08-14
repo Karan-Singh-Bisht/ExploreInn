@@ -8,6 +8,7 @@ const ejsMate = require("ejs-mate"); //required for boilerPlate
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
+const passport = require("./config");
 
 app.use(
   expressSession({
@@ -22,6 +23,12 @@ app.use(
   })
 );
 app.use(flash());
+
+// Initialize Passport for authentication
+app.use(passport.initialize());
+
+// Enable persistent login sessions
+app.use(passport.session());
 
 //Middleware for flash
 
@@ -40,6 +47,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.use(cookieParser());
+
 app.engine("ejs", ejsMate);
 
 //Route Declaration
@@ -48,6 +56,7 @@ const userRoute = require("./routes/userRoute");
 
 app.use("/listings", listingRoute);
 app.use("/user", userRoute);
+
 app.all("*", (req, res, next) => {
   {
     (statusCode = 404), (message = "Page Not Found!");

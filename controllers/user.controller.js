@@ -3,6 +3,7 @@ const ApiError = require("../utils/apiError");
 const ApiResponse = require("../utils/apiResponse");
 const userModel = require("../models/user.models");
 const uploadOnCloudinary = require("../utils/cloudinary.js");
+const passport = require("passport");
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -17,6 +18,10 @@ const generateAccessAndRefreshTokens = async (userId) => {
     throw new Error("Error generating access and refresh tokens");
   }
 };
+
+module.exports.renderLoginPage = asyncHandler(async (req, res) => {
+  res.render("login");
+});
 
 module.exports.renderRegisterPage = asyncHandler(async (req, res) => {
   res.render("register");
@@ -51,38 +56,20 @@ module.exports.registerUser = asyncHandler(async (req, res) => {
   res.redirect("/listings");
 });
 
-module.exports.loginUser = asyncHandler(async (req, res) => {
-  const { email, userName, password } = req.body;
-  if (!email && !userName) {
-    throw new ApiError(400, "Email or Username are required!");
-  }
-  const user = await userModel.findOne({ $or: [{ email }, { userName }] });
-  if (!user) {
-    throw new ApiError(404, "User does not exist!");
-  }
-  const isValidPassword = await user.isPasswordCorrect(password);
-  if (!isValidPassword) {
-    throw new ApiError(400, "Password is incorrect!");
-  }
-  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
-    user._id
-  );
+module.exports.loginUser = asyncHandler(
+  passport.authenticate("local", {
+    successRedirect: "/listings",
+    failureRedirect: "/user/login",
+    failureFlash: true, // if using connect-flash for flash messages
+  })
+);
 
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
-
-  return res
-    .redirect("/listings")
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        { user: loggedInUser, accessToken, refreshToken },
-        "User logged in Successfully"
-      )
-    );
+module.exports.logoutUser = asyncHandler(async (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error("Error logging out:", err);
+      return res.status(500).send("Error logging out.");
+    }
+    res.redirect("/user/login");
+  });
 });

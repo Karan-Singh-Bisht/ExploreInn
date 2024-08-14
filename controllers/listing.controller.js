@@ -106,7 +106,6 @@ module.exports.listingRating = asyncHandler(async (req, res) => {
   if (!listing) {
     throw new ApiError(404, "Listing does not exist!");
   }
-  const objectId = id;
 
   const { rating, comment } = req.body;
   const userId = id;
