@@ -53,16 +53,31 @@ module.exports.registerUser = asyncHandler(async (req, res) => {
   if (!findUser) {
     throw new ApiError(404, "User not found!");
   }
+  req.flash("success", "Welcome to ExploreInn,Ready to Blaze New Trails?");
   res.redirect("/listings");
 });
 
-module.exports.loginUser = asyncHandler(
-  passport.authenticate("local", {
-    successRedirect: "/listings",
-    failureRedirect: "/user/login",
-    failureFlash: true, // if using connect-flash for flash messages
-  })
-);
+module.exports.loginUser = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    } // Handle any errors
+
+    if (!user) {
+      req.flash("error", info.message || "Login failed.");
+      return res.redirect("/user/login");
+    }
+
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      req.flash("success", "Welcome Back, Explore Inn feels better with you!");
+      res.redirect("/listings");
+    });
+  })(req, res, next); // Call the passport middleware
+};
 
 module.exports.logoutUser = asyncHandler(async (req, res) => {
   req.logout((err) => {
@@ -70,6 +85,7 @@ module.exports.logoutUser = asyncHandler(async (req, res) => {
       console.error("Error logging out:", err);
       return res.status(500).send("Error logging out.");
     }
+    req.flash("success", "You have been logged out successfully.");
     res.redirect("/user/login");
   });
 });
