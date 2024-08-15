@@ -11,10 +11,9 @@ const ratingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userId: {
+  author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   createdAt: {
     type: Date,

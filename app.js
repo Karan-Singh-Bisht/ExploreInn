@@ -33,8 +33,10 @@ app.use(passport.session());
 //Middleware for flash
 
 app.use((req, res, next) => {
+  //res.locals allows us to use several things in ejs files
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
 

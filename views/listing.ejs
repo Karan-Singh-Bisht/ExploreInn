@@ -141,6 +141,7 @@
           <span class="title-font text-xl font-bold text-gray-900">
             &#8377;<%=listing.price.toLocaleString("en-IN")%> / night
           </span>
+          <%if(currUser){%>
           <form
             action="/listings/delete/<%=listing._id%>?_method=DELETE"
             method="post"
@@ -156,9 +157,11 @@
               Delete
             </button>
           </form>
+          <%}%>
         </div>
       </div>
     </div>
+    <%if(currUser){%>
     <div class="my-5">
       <hr />
       <h2 class="my-3 text-3xl">Leave a Review</h2>
@@ -185,6 +188,7 @@
         </button>
       </form>
     </div>
+    <%}%>
     <hr />
     <h1 class="text-4xl my-3">All Reviews</h1>
     <div class="flex flex-wrap">
@@ -210,7 +214,7 @@
                 <div class="ml-3 min-w-0 flex gap-10">
                   <div>
                     <p class="truncate text-base font-semibold text-gray-800">
-                      Theresa Webb
+                      <%=rating%>
                     </p>
                     <p class="truncate text-base text-gray-500">Web Designer</p>
                   </div>

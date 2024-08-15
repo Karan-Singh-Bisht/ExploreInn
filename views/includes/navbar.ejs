@@ -39,6 +39,7 @@
 
     <!-- Sign In / Log In Buttons -->
     <div class="hidden lg:block space-x-2">
+      <%if(!currUser){%>
       <a
         href="/user/register"
         class="rounded-md bg-transparent px-4 py-3 text-md font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
@@ -51,14 +52,23 @@
       >
         Log In
       </a>
+      <%}%> <%if(currUser){%>
+      <a
+        href="/user/logout"
+        class="rounded-md border border-red-600 px-3 py-2 text-md font-semibold text-red-600 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+      >
+        Log out
+      </a>
+      <%}%>
     </div>
 
     <!-- Profile Image -->
+    <%if(currUser){%>
     <div class="ml-5 hidden lg:block">
       <span class="relative inline-block">
         <img
           class="h-10 w-10 rounded-full"
-          src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
+          src="<%=currUser.avatar%>"
           alt="Dan_Abromov"
         />
         <span
@@ -66,6 +76,7 @@
         ></span>
       </span>
     </div>
+    <%}%>
 
     <!-- Hamburger Icon for Small Screens -->
     <div class="lg:hidden">
