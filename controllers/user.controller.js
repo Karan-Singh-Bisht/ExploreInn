@@ -79,7 +79,7 @@ module.exports.loginUser = (req, res, next) => {
       }
 
       req.flash("success", "Welcome Back, Explore Inn feels better with you!");
-      res.redirect("/listings");
+      res.redirect(res.locals.redirectUrl || "/listings");
     });
   })(req, res, next); // Call the passport middleware
 };

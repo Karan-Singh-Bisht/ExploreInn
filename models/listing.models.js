@@ -45,6 +45,10 @@ const listingSchema = new mongoose.Schema({
       ref: "Rating",
     },
   ],
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 //Delete all the ratings which have the id of the deleted listing

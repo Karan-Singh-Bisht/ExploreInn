@@ -27,6 +27,7 @@ module.exports.createListing = asyncHandler(async (req, res) => {
     image:
       image?.url ||
       "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    owner: req.user._id,
   });
   if (!listing) {
     throw new ApiError(500, "Failed to create listing");
@@ -47,7 +48,15 @@ module.exports.showListings = asyncHandler(async (req, res) => {
 //Show particular listing
 module.exports.listing = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const listing = await listingModel.findById(id).populate("ratings");
+  const listing = await listingModel
+    .findById(id)
+    .populate({
+      path: "ratings",
+      populate: {
+        path: "author",
+      },
+    })
+    .populate("owner");
   if (!listing) {
     req.flash("error", "Listing Does not exist");
     res.redirect("/listings");
@@ -70,7 +79,6 @@ module.exports.renderEditForm = asyncHandler(async (req, res) => {
 module.exports.updateListing = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, description, price, location, country, category } = req.body;
-
   const updatedListing = await listingModel.findByIdAndUpdate(id, {
     title,
     description,
@@ -109,8 +117,8 @@ module.exports.listingRating = asyncHandler(async (req, res) => {
 
   const { rating, comment } = req.body;
   const userId = id;
-
-  const newRating = new ratingModel({ rating, comment, userId });
+  const author = req.user.id;
+  const newRating = new ratingModel({ rating, comment, userId, author });
 
   listing.ratings.push(newRating);
 
