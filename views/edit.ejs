@@ -8,6 +8,7 @@
         action="/listings/update/<%=listing._id %>?_method=PUT"
         method="POST"
         class="space-y-6"
+        enctype="multipart/form-data"
       >
         <div>
           <!--Title-->
@@ -45,14 +46,18 @@
 
         <!--Image-->
 
+        <div class="mb-3">
+          Original Listing Image <br />
+          <img src="<%=newImageUrl%>" alt="listing Image" />
+        </div>
+
         <div>
           <label for="image" class="block text-md font-medium text-gray-700"
-            >Image Link</label
+            >Image</label
           >
           <input
-            type="text"
+            type="file"
             name="image"
-            value="<%=listing.image%>"
             id="image"
             class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
           />
@@ -75,7 +80,6 @@
         </div>
 
         <!-- Category -->
-
         <div class="mb-4">
           <label
             for="category"
@@ -101,35 +105,38 @@
         </div>
 
         <!--Location-->
+        <div class="md:flex block">
+          <div class="w-full lg:w-1/2 md:w-[100%] mr-2 mb-3">
+            <label
+              for="location"
+              class="block text-md font-medium text-gray-700"
+              >Location</label
+            >
+            <input
+              value="<%=listing.location%>"
+              type="text"
+              id="location"
+              required
+              name="location"
+              class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+            />
+          </div>
 
-        <div>
-          <label for="location" class="block text-md font-medium text-gray-700"
-            >Location</label
-          >
-          <input
-            value="<%=listing.location%>"
-            type="text"
-            id="location"
-            required
-            name="location"
-            class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
-          />
-        </div>
+          <!--Country-->
 
-        <!--Country-->
-
-        <div>
-          <label for="country" class="block text-md font-medium text-gray-700"
-            >Country</label
-          >
-          <input
-            value="<%=listing.country%>"
-            type="text"
-            id="country"
-            required
-            name="country"
-            class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
-          />
+          <div class="w-full lg:w-1/2 md:w-[100%]">
+            <label for="country" class="block text-md font-medium text-gray-700"
+              >Country</label
+            >
+            <input
+              value="<%=listing.country%>"
+              type="text"
+              id="country"
+              required
+              name="country"
+              class="mt-1 block w-full p-2 border-2 rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+            />
+          </div>
         </div>
         <div class="flex justify-start">
           <button

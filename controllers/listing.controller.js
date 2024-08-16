@@ -72,13 +72,17 @@ module.exports.renderEditForm = asyncHandler(async (req, res) => {
   if (!listing) {
     throw new ApiError(404, "Listing not found");
   }
-  res.render("edit", { listing });
+  var originalImageUrl = listing.image;
+  var newImageUrl = originalImageUrl.replace("/upload", "/upload/h_200,w_200");
+  res.render("edit", { listing, newImageUrl });
 });
 
 //Update Listing
 module.exports.updateListing = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, description, price, location, country, category } = req.body;
+  const imageLocalPath = req.file?.path;
+  const image = await uploadOnCloudinary(imageLocalPath);
   const updatedListing = await listingModel.findByIdAndUpdate(id, {
     title,
     description,
@@ -86,6 +90,7 @@ module.exports.updateListing = asyncHandler(async (req, res) => {
     location,
     country,
     category,
+    image: image?.url,
   });
 
   if (!updatedListing) {
