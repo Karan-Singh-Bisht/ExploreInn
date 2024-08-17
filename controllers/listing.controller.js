@@ -4,6 +4,10 @@ const ApiResponse = require("../utils/apiResponse");
 const listingModel = require("../models/listing.models");
 const ApiError = require("../utils/apiError");
 const ratingModel = require("../models/rating.model");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geoCodingClient = mbxGeocoding({
+  accessToken: process.env.MAP_BOX_TOKEN,
+});
 
 //Render create form
 module.exports.renderCreateForm = asyncHandler(async (req, res) => {
@@ -12,6 +16,13 @@ module.exports.renderCreateForm = asyncHandler(async (req, res) => {
 
 //create a new listing
 module.exports.createListing = asyncHandler(async (req, res) => {
+  let response = await geoCodingClient
+    .forwardGeocode({
+      query: `${req.body.location},${req.body.country}`,
+      limit: 1,
+    })
+    .send();
+
   const { title, description, price, location, country, category } = req.body;
 
   const imageLocalPath = req.file?.path;
@@ -28,6 +39,7 @@ module.exports.createListing = asyncHandler(async (req, res) => {
       image?.url ||
       "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     owner: req.user._id,
+    geometry: response.body.features[0].geometry,
   });
   if (!listing) {
     throw new ApiError(500, "Failed to create listing");

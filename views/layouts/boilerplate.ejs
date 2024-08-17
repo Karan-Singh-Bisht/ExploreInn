@@ -13,6 +13,17 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="../error.ejs" />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+    <style>
+      #map {
+        height: 30vw;
+        width: 59vw;
+      }
+    </style>
   </head>
   <body>
     <%- include("../includes/navbar.ejs")%>
