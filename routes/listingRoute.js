@@ -14,6 +14,7 @@ const {
   deleteListing,
   listingRating,
   deleteRating,
+  getListingByCategory,
 } = require("../controllers/listing.controller");
 const isOwner = require("../middlewares/isOwner.middleware");
 const isAuthor = require("../middlewares/isAuthor.middleware");
@@ -23,6 +24,7 @@ router.post("/create", upload.single("image"), validateListing, createListing);
 router.get("/", showListings);
 router.get("/:id", listing);
 router.get("/edit/:id", isOwner, renderEditForm);
+router.get("/category/:category", getListingByCategory);
 router.put(
   "/update/:id",
   isLoggedIn,

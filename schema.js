@@ -15,14 +15,15 @@ const listingSchemaJoi = Joi.object({
 
   category: Joi.string()
     .valid(
-      "Villa",
-      "Igloo",
-      "SwimmingPool",
-      "Cabin",
-      "PentHouse",
-      "Cottage",
-      "Apartment",
-      "EntirePlace"
+      "Trending",
+      "Rooms",
+      "Iconic Cities",
+      "Mountains",
+      "Castles",
+      "Amazing Pools",
+      "Camping",
+      "Farms",
+      "Arctic"
     )
     .required()
     .messages({

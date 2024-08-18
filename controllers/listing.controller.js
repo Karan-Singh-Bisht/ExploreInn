@@ -163,3 +163,12 @@ module.exports.deleteRating = asyncHandler(async (req, res) => {
   }
   res.redirect(`/listings/${id}`);
 });
+
+module.exports.getListingByCategory = asyncHandler(async (req, res) => {
+  const { category } = req.params;
+  const listings = await listingModel.find({ category });
+  if (!listings) {
+    throw new ApiError(500, "Failed to fetch listings");
+  }
+  res.render("category", { listings });
+});
