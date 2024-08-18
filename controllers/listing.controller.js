@@ -8,6 +8,7 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geoCodingClient = mbxGeocoding({
   accessToken: process.env.MAP_BOX_TOKEN,
 });
+const mongoose = require("mongoose");
 
 //Render create form
 module.exports.renderCreateForm = asyncHandler(async (req, res) => {
@@ -60,6 +61,12 @@ module.exports.showListings = asyncHandler(async (req, res) => {
 //Show particular listing
 module.exports.listing = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) {
+    return res
+      .status(404)
+      .render("error", { statusCode: "404", message: "Page not found" }); // Render your 404 page
+  }
+
   const listing = await listingModel
     .findById(id)
     .populate({
