@@ -1,6 +1,5 @@
 const asyncHandler = require("../utils/asyncHandler");
 const uploadOnCloudinary = require("../utils/cloudinary");
-const ApiResponse = require("../utils/apiResponse");
 const listingModel = require("../models/listing.models");
 const ApiError = require("../utils/apiError");
 const ratingModel = require("../models/rating.model");

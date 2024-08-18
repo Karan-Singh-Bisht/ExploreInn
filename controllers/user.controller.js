@@ -57,7 +57,10 @@ module.exports.registerUser = asyncHandler(async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    req.flash("success", "Welcome to ExploreInn,Ready to Blaze New Trails?");
+    req.flash(
+      "success",
+      `Welcome to ExploreInn ${userName},Ready to Blaze New Trails?`
+    );
     res.redirect("/listings");
   });
 });
@@ -78,7 +81,10 @@ module.exports.loginUser = (req, res, next) => {
         return next(err);
       }
 
-      req.flash("success", "Welcome Back, Explore Inn feels better with you!");
+      req.flash(
+        "success",
+        `Welcome Back ${user.userName}, ExploreInn feels better with you!`
+      );
       res.redirect(res.locals.redirectUrl || "/listings");
     });
   })(req, res, next); // Call the passport middleware
