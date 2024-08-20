@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate")%>
 <div class="w-full">
-  <div class="h-24 my-3 flex items-center p-3 gap-10">
+  <!-- <div class="h-24 my-3 flex items-center p-3 gap-10">
     <div
       class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
       data-category="Trending"
@@ -64,7 +64,123 @@
       <i class="fa-regular fa-snowflake text-2xl"></i>
       <p>Arctic</p>
     </div>
+    <div>
+      <label
+        class="inline-flex border-2 h-[3.5rem] sm:h-12 md:h-[3rem] lg:h-[3.5rem] p-4 sm:p-3 md:p-2 lg:p-4 rounded-[10vw] items-center cursor-pointer"
+      >
+        <input type="checkbox" value="" class="sr-only peer" id="tax-switch" />
+        <span
+          class="ms-3 mr-2 text-md sm:text-sm md:text-base lg:text-md font-medium text-gray-900"
+        >
+          Display Total After Taxes
+        </span>
+        <div
+          class="relative w-11 sm:w-10 md:w-9 h-6 sm:h-5 md:h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 sm:after:h-4 md:after:h-3 after:w-5 sm:after:w-4 md:after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+        ></div>
+      </label>
+    </div>
+  </div> -->
+  <div class="relative">
+    <!-- Hamburger Icon (Visible on small screens) -->
+    <button
+      id="hamburger-btn"
+      class="lg:hidden p-3 cursor-pointer focus:outline-none"
+    >
+      <i class="fa-solid fa-bars text-2xl"></i>
+    </button>
+
+    <!-- Menu (Hidden on small screens, visible on large screens) -->
+    <div
+      id="menu"
+      class="hidden lg:flex flex-wrap items-center p-3 gap-10 lg:gap-10 h-[20vw] my-3"
+    >
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Trending"
+      >
+        <i class="fa-solid fa-fire text-2xl"></i>
+        <p>Trending</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Rooms"
+      >
+        <i class="fa-solid fa-bed text-2xl"></i>
+        <p>Rooms</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Iconic Cities"
+      >
+        <i class="fa-solid fa-mountain-city text-2xl"></i>
+        <p>Iconic Cities</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Mountains"
+      >
+        <i class="fa-solid fa-mountain text-2xl"></i>
+        <p>Mountains</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Castles"
+      >
+        <i class="fa-brands fa-fort-awesome text-2xl"></i>
+        <p>Castles</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Amazing Pools"
+      >
+        <i class="fa-solid fa-person-swimming text-2xl"></i>
+        <p>Amazing Pools</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Camping"
+      >
+        <i class="fa-solid fa-campground text-2xl"></i>
+        <p>Camping</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Farms"
+      >
+        <i class="fa-solid fa-cow text-2xl"></i>
+        <p>Farms</p>
+      </div>
+      <div
+        class="flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer"
+        data-category="Arctic"
+      >
+        <i class="fa-regular fa-snowflake text-2xl"></i>
+        <p>Arctic</p>
+      </div>
+      <!-- Tax Switch -->
+      <div>
+        <label
+          class="inline-flex border-2 h-[3.5rem] sm:h-12 md:h-[3rem] lg:h-[3.5rem] p-4 sm:p-3 md:p-2 lg:p-4 rounded-[10vw] items-center cursor-pointer"
+        >
+          <input
+            type="checkbox"
+            value=""
+            class="sr-only peer"
+            id="tax-switch"
+          />
+          <span
+            class="ms-3 mr-2 text-md sm:text-sm md:text-base lg:text-md font-medium text-gray-900"
+          >
+            Display Total After Taxes
+          </span>
+          <div
+            class="relative w-11 sm:w-10 md:w-9 h-6 sm:h-5 md:h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 sm:after:h-4 md:after:h-3 after:w-5 sm:after:w-4 md:after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+          ></div>
+        </label>
+      </div>
+    </div>
   </div>
+
   <div class="flex flex-wrap gap-10">
     <%listings.forEach((listing) => {%>
     <div class="relative hover:opacity-85 h-[400px] w-[325px] rounded-md">
@@ -80,6 +196,7 @@
         <h1 class="text-lg font-semibold text-white"><%=listing.title%></h1>
         <p class="mt-2 text-sm text-gray-300">
           &#8377;<%=listing.price.toLocaleString("en-IN")%> / night
+          <i class="taxAmount hidden">+18% GST</i>
         </p>
         <a
           href="/listings/<%=listing._id%>"
@@ -98,5 +215,23 @@
       const category = event.currentTarget.getAttribute("data-category");
       window.location.href = `/listings/category/${category}`;
     });
+  });
+  let taxSwitch = document.getElementById("tax-switch");
+  taxSwitch.addEventListener("click", () => {
+    const taxAmount = document.getElementsByClassName("taxAmount");
+    for (tax of taxAmount) {
+      if (tax.style.display != "inline") {
+        tax.style.display = "inline";
+      } else {
+        tax.style.display = "none";
+      }
+    }
+  });
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const menu = document.getElementById("menu");
+
+  hamburgerBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+    menu.classList.toggle("flex");
   });
 </script>
