@@ -4,6 +4,7 @@ const ApiResponse = require("../utils/apiResponse");
 const userModel = require("../models/user.models");
 const uploadOnCloudinary = require("../utils/cloudinary.js");
 const passport = require("passport");
+const listingModel = require("../models/listing.models.js");
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -99,4 +100,44 @@ module.exports.logoutUser = asyncHandler(async (req, res) => {
     req.flash("success", "You have been logged out successfully.");
     res.redirect("/user/login");
   });
+});
+
+module.exports.userInfo = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = await userModel.findById(id);
+  if (!user) {
+    throw new ApiError(404, "User not found!");
+  }
+  const findUser = await userModel
+    .findById(user._id)
+    .select("-password -refreshToken");
+  res.render("userProfile", { user: findUser });
+});
+
+module.exports.editUserInfo = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = await userModel.findById(id);
+  if (!user) {
+    throw new ApiError(404, "User not found!");
+  }
+  var originalUserImage = user.avatar;
+  var newImageUrl = originalUserImage.replace("/upload", "/upload/h_500,w_500");
+  res.render("editUserProfile", { user, newImageUrl }); // Render the edit user profile template
+});
+
+module.exports.updatedUser = asyncHandler(async (req, res) => {
+  const { userName, email } = req.body;
+  const { id } = req.params;
+  const avatarLocalPath = req.file?.path;
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+  const updatedUser = await userModel.findByIdAndUpdate(id, {
+    userName,
+    email,
+    avatar: avatar?.url,
+  });
+  if (!updatedUser) {
+    throw new ApiError(500, "Failed to update user");
+  }
+  req.flash("success", "User Profile Updated Successfully!");
+  res.redirect(`/user/${id}/dashboard`);
 });

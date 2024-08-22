@@ -65,16 +65,16 @@
     <!-- Profile Image -->
     <%if(currUser){%>
     <div class="ml-5 hidden lg:block">
-      <span class="relative inline-block">
+      <a href="/user/<%=currUser.id%>/dashboard" class="relative inline-block">
         <img
           class="h-10 w-10 rounded-full"
           src="<%=currUser.avatar%>"
-          alt="Dan_Abromov"
+          alt="User avatar"
         />
         <span
           class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-600 ring-2 ring-white"
         ></span>
-      </span>
+      </a>
     </div>
     <%}%>
 
