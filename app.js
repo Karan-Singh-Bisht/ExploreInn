@@ -9,11 +9,25 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate"); //required for boilerPlate
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("./config");
 
+const dbUrl = process.env.MONGODB_URI;
+
+//Mongo Store for Session Storage during production
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.EXPRESS_SESSION_SECRET,
+  },
+  touchAfter: 24 * 60 * 60,
+});
+
 app.use(
   expressSession({
+    store,
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -24,6 +38,7 @@ app.use(
     },
   })
 );
+
 app.use(flash());
 
 // Initialize Passport for authentication
