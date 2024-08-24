@@ -75,6 +75,9 @@ const userRoute = require("./routes/userRoute");
 
 app.use("/listings", listingRoute);
 app.use("/user", userRoute);
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 app.get("/about", (req, res) => {
   res.render("about");
 });
