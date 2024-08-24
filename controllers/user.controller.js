@@ -4,21 +4,6 @@ const ApiResponse = require("../utils/apiResponse");
 const userModel = require("../models/user.models");
 const uploadOnCloudinary = require("../utils/cloudinary.js");
 const passport = require("passport");
-const listingModel = require("../models/listing.models.js");
-
-const generateAccessAndRefreshTokens = async (userId) => {
-  try {
-    const user = await userModel.findById(userId);
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
-
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
-    return { accessToken, refreshToken };
-  } catch (err) {
-    throw new Error("Error generating access and refresh tokens");
-  }
-};
 
 module.exports.renderLoginPage = asyncHandler(async (req, res) => {
   res.render("login");
@@ -126,8 +111,32 @@ module.exports.editUserInfo = asyncHandler(async (req, res) => {
 });
 
 module.exports.updatedUser = asyncHandler(async (req, res) => {
-  const { userName, email } = req.body;
   const { id } = req.params;
+  const { userName, email } = req.body;
+
+  if (userModel.userNameChanged && userName !== userModel.userName) {
+    req.flash("error", "Username can only be changed once.");
+    return res.redirect(`/user/${id}/editUserProfile`);
+  }
+  if (userModel.emailChanged && email !== userModel.email) {
+    req.flash("error", "Email can only be changed once.");
+    return res.redirect(`/user/${id}/editUserProfile`);
+  }
+
+  // If the username or email is being changed for the first time, mark them as changed
+  if (userName !== userModel.userName) {
+    userModel.userNameChanged = true;
+  }
+  if (email !== userModel.email) {
+    userModel.emailChanged = true;
+  }
+
+  // Check if the email already exists
+  const existingEmail = await userModel.findOne({ email: email });
+  if (existingEmail) {
+    req.flash("error", "User with the particular credentials already exists");
+    return res.redirect(`/user/${id}/editUserProfile`);
+  }
   const avatarLocalPath = req.file?.path;
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const updatedUser = await userModel.findByIdAndUpdate(id, {

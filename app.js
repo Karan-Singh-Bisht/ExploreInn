@@ -60,6 +60,9 @@ const userRoute = require("./routes/userRoute");
 
 app.use("/listings", listingRoute);
 app.use("/user", userRoute);
+app.get("/about", (req, res) => {
+  res.render("about");
+});
 
 app.all("*", (req, res, next) => {
   {
