@@ -32,10 +32,6 @@ module.exports.registerUser = asyncHandler(async (req, res, next) => {
       "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?w=826&t=st=1723037395~exp=1723037995~hmac=88fe535ef9ac7e7658d485f74eaf8ffe444366fb43fb67ba7719c1969f068fad",
   });
 
-  // const findUser = await userModel
-  //   .findById(user._id)
-  //   .select("-password -refreshToken");
-
   if (!user) {
     throw new ApiError(404, "User not found!");
   }

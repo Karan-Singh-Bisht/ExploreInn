@@ -78,7 +78,6 @@ module.exports.listing = asyncHandler(async (req, res) => {
   if (!listing) {
     req.flash("error", "Listing Does not exist");
     res.redirect("/listings");
-    // throw new ApiError(404, "Listing not found");
   }
   res.render("listing", { listing });
 });
