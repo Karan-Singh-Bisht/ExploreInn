@@ -106,43 +106,114 @@ module.exports.editUserInfo = asyncHandler(async (req, res) => {
   res.render("editUserProfile", { user, newImageUrl }); // Render the edit user profile template
 });
 
+// module.exports.updatedUser = asyncHandler(async (req, res) => {
+//   const { id } = req.params;
+//   const { userName, email } = req.body;
+
+//   console.log(userModel.userNameChanged);
+//   if (userModel.userNameChanged == true && userName != userModel.userName) {
+//     req.flash("error", "Username can only be changed once.");
+//     return res.redirect(`/user/${id}/editUserProfile`);
+//   }
+
+//   if (userModel.emailChanged == true && email != userModel.email) {
+//     req.flash("error", "Email can only be changed once.");
+//     return res.redirect(`/user/${id}/editUserProfile`);
+//   }
+
+//   // If the username or email is being changed for the first time, mark them as changed
+//   if (userName !== userModel.userName) {
+//     userModel.userNameChanged = true;
+//   }
+//   if (email !== userModel.email) {
+//     userModel.emailChanged = true;
+//   }
+
+//   // Check if the email already exists
+//   // const existingEmail = await userModel.findOne({ email });
+//   // if (existingEmail) {
+//   //   req.flash("error", "User with the particular credentials already exists");
+//   //   return res.redirect(`/user/${id}/editUserProfile`);
+//   // }
+
+//   const avatarLocalPath = req.file?.path;
+//   const avatar = await uploadOnCloudinary(avatarLocalPath);
+//   const updatedUser = await userModel.findByIdAndUpdate(id, {
+//     userName,
+//     email,
+//     avatar: avatar?.url,
+//   });
+//   if (!updatedUser) {
+//     throw new ApiError(500, "Failed to update user");
+//   }
+//   req.flash("success", "User Profile Updated Successfully!");
+//   res.redirect(`/user/${id}/dashboard`);
+// });
+
 module.exports.updatedUser = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { userName, email } = req.body;
+  try {
+    const { id } = req.params;
+    const { userName, email } = req.body;
 
-  if (userModel.userNameChanged && userName !== userModel.userName) {
-    req.flash("error", "Username can only be changed once.");
-    return res.redirect(`/user/${id}/editUserProfile`);
-  }
-  if (userModel.emailChanged && email !== userModel.email) {
-    req.flash("error", "Email can only be changed once.");
-    return res.redirect(`/user/${id}/editUserProfile`);
-  }
+    // Fetch the user from the database
+    const user = await userModel.findById(id);
 
-  // If the username or email is being changed for the first time, mark them as changed
-  if (userName !== userModel.userName) {
-    userModel.userNameChanged = true;
-  }
-  if (email !== userModel.email) {
-    userModel.emailChanged = true;
-  }
+    if (!userModel) {
+      req.flash("error", "User not found.");
+      return res.redirect(`/user/${id}/editUserProfile`);
+    }
 
-  // Check if the email already exists
-  const existingEmail = await userModel.findOne({ email: email });
-  if (existingEmail) {
-    req.flash("error", "User with the particular credentials already exists");
-    return res.redirect(`/user/${id}/editUserProfile`);
+    // Check if the email already exists
+    const existingEmail = await userModel.findOne({ email });
+    if (existingEmail && existingEmail._id.toString() !== id) {
+      req.flash("error", "User with this email already exists.");
+      return res.redirect(`/user/${id}/editUserProfile`);
+    }
+
+    // Check if the username or email is being changed
+    if (user.userNameChanged && userName !== user.userName) {
+      req.flash("error", "Username can only be changed once.");
+      return res.redirect(`/user/${id}/editUserProfile`);
+    }
+
+    if (user.emailChanged && email !== user.email) {
+      req.flash("error", "Email can only be changed once.");
+      return res.redirect(`/user/${id}/editUserProfile`);
+    }
+    // Update flags if username or email is being changed for the first time
+    if (userName !== user.userName || email !== user.email) {
+      await userModel.findByIdAndUpdate(id, {
+        userNameChanged: true,
+        emailChanged: true,
+      });
+    }
+
+    // Handle avatar upload
+    const avatarLocalPath = req.file?.path;
+    const avatar = avatarLocalPath
+      ? await uploadOnCloudinary(avatarLocalPath)
+      : null;
+
+    // Update user information
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      {
+        userName,
+        email,
+        avatar: avatar?.url || userModel.avatar, // Keep old avatar if new one is not uploaded
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      throw new ApiError(500, "Failed to update user");
+    }
+
+    req.flash("success", "User Profile Updated Successfully!");
+    res.redirect(`/user/${id}/dashboard`);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    req.flash("error", "An error occurred while updating the user profile.");
+    res.redirect(`/user/${id}/editUserProfile`);
   }
-  const avatarLocalPath = req.file?.path;
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
-  const updatedUser = await userModel.findByIdAndUpdate(id, {
-    userName,
-    email,
-    avatar: avatar?.url,
-  });
-  if (!updatedUser) {
-    throw new ApiError(500, "Failed to update user");
-  }
-  req.flash("success", "User Profile Updated Successfully!");
-  res.redirect(`/user/${id}/dashboard`);
 });
