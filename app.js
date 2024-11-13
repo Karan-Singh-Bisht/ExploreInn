@@ -9,11 +9,17 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate"); //required for boilerPlate
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
+const cron = require("node-cron");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("./config");
 
 const dbUrl = process.env.MONGODB_URI;
+
+cron.schedule("*/5 * * * *", () => {
+  exec("curl https://exploreinn.onrender.com/listings");
+  console.log("Corn running....");
+});
 
 //Mongo Store for Session Storage during production
 
