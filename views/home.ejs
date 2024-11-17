@@ -102,31 +102,38 @@
   </div>
 
   <div class="flex flex-wrap gap-10">
-    <%listings.forEach((listing) => {%>
-    <div class="relative hover:opacity-85 h-[400px] w-[325px] rounded-md">
+    <% listings.forEach((listing) => { %>
+    <a
+      href="/listings/<%= listing._id %>"
+      class="relative group h-[400px] w-[325px] rounded-md overflow-hidden hover:opacity-80"
+    >
+      <!-- Listing Image -->
       <img
-        src="<%=listing.image%>"
+        src="<%= listing.image %>"
         alt="Listing image"
-        class="z-0 h-full w-full rounded-md object-cover"
+        class="h-full w-full object-cover rounded-md"
       />
+
+      <!-- Gradient Overlay -->
       <div
-        class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"
+        class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"
       ></div>
+
+      <!-- Listing Details -->
       <div class="absolute bottom-4 left-4 text-left">
-        <h1 class="text-lg font-semibold text-white"><%=listing.title%></h1>
+        <h1 class="text-lg font-semibold text-white"><%= listing.title %></h1>
         <p class="mt-2 text-sm text-gray-300">
-          &#8377;<%=listing.price.toLocaleString("en-IN")%> / night
-          <i class="taxAmount hidden">+18% GST</i>
+          &#8377;<%= listing.price.toLocaleString("en-IN") %> / night
+          <span class="hidden taxAmount">+18% GST</span>
         </p>
-        <a
-          href="/listings/<%=listing._id%>"
-          class="mt-2 inline-flex cursor-pointer items-center text-sm font-semibold text-white"
+        <span
+          class="inline-block mt-2 text-sm font-semibold text-white group-hover:underline"
         >
           View Listing →
-        </a>
+        </span>
       </div>
-    </div>
-    <%})%>
+    </a>
+    <% }) %>
   </div>
 </div>
 <script>
